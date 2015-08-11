@@ -1,4 +1,4 @@
-// stackproblem.cpp : Defines the entry point for the console application.
+﻿// stackproblem.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -134,21 +134,25 @@ bool CSolution::BranchRemove(TCHAR chValue[], int nLength, int nPosition)
 
 	for( int i = 0; i < nPosition; i++ )
 	{
+		// 'i'
 		if( chValue[ i ] == ElementAt( 0 ) )
 		{
 			strStackValue += m_strInput[ nPushCount ];
 
 			nPushCount++;
-			if( nPushCount > ( nLength / 2 ) )
+			if( nPushCount > ( nLength / 2 ) )	// i의 개수는 총길이의 반이어야 한다.
 			{
 				bResult = true;
 				break;
 			}
 		}
+		// 'o'
 		if( chValue[ i ] == ElementAt( 1 ) )
 		{
 			nPopCount++;
-			if( i == 0 || nPopCount > ( nLength / 2 ) || nPopCount > nPushCount )
+			if( i == 0 ||						// 스택에 0번째에는 o가 오면 안된다.
+				nPopCount > ( nLength / 2 ) ||  // o의 개수는 총길이의 반이어야 한다.
+				nPopCount > nPushCount )		// i개수보다 o의 개수가 많으면 안된다.
 			{
 				bResult = true;
 				break;
@@ -159,12 +163,9 @@ bool CSolution::BranchRemove(TCHAR chValue[], int nLength, int nPosition)
 	}
  	if( bResult == false )
  	{
-		if( nPosition == nLength )
-		{
-			if( m_strOutput != strResult )
-				bResult = true;
-		}
-
+		// 맨 처음 문자부터 같은 문자를 찾는다.
+		if( m_strOutput.Find( strResult ) != 0 )
+			bResult = true;
  	}
 
 	return bResult;
@@ -202,11 +203,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 
 	CSolution solution;
- 	solution.Run( _T("madam"), _T("adamm") );
+	solution.Run( _T("madam"), _T("adamm") );
  	solution.Run( _T("bahama"), _T("bahama") );
-  	solution.Run( _T("long"), _T("short") );
-  	solution.Run( _T("eric"), _T("rice") );
-//	solution.Run( _T("abcdefgabcdefgabcdefgabcdefg"), _T("abcdefgabcdefgabcdefgabcdefg") );
+	solution.Run( _T("long"), _T("short") );
+	solution.Run( _T("eric"), _T("rice") );
+	solution.Run( _T("abcdefgabcdefgabcdefgabcdefg"), _T("abcdefgabcdefgabcdefgabcdefg") );
 
 	return 0;
 }
